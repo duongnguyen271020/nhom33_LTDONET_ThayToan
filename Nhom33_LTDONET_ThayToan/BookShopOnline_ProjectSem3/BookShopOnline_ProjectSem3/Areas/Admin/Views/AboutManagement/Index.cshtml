@@ -1,0 +1,62 @@
+﻿@model IEnumerable<BookShopOnline_ProjectSem3.Models.About>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+
+<div class="main-panel">
+    <div class="content-wrapper">
+
+        <div class="card">
+            <div class="card-body">
+                <p>
+                    @Html.ActionLink("Create New", "Create")
+                </p>
+                <br />
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table id="order-listing" class="table">
+
+                                <thead>
+                                    <tr>
+                                        <th>Title #</th>
+                                        <th>Image </th>
+                                        <th>Content </th>
+                                        <th>Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Title)
+                                            </td>
+                                            <td>
+                                                <img src="~/UploadImageAbout/@item.Image" width="100" height="100" />
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Content)
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.AboutID }) |
+                                                
+                                                @Html.ActionLink("Delete", "Delete", new { id = item.AboutID })
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

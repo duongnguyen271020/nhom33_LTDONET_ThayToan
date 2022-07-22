@@ -1,0 +1,110 @@
+﻿@model BookShopOnline_ProjectSem3.Models.Employee
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    <link href="~/Content/Admin/css/Profile.css" rel="stylesheet" />
+    <script src="~/Content/Admin/js/Profile.js"></script>
+}
+
+<div class="main-panel">
+    <div class="content-wrapper">
+
+        <div class="abc">
+            <h2>SETTINGS</h2>
+            <div class="tabordion">
+                <section id="section1">
+                    <input class="t" type="radio" name="sections" id="option1" checked>
+                    <label for="option1" class="trr"> Account</label>
+                    <article>
+                        @ViewBag.msg
+                        <div class="frm">
+
+                            <div id='profile-upload'>
+                                <div class="hvr-profile-img">
+
+
+                                    <input type="file" name="logo" id='getval' class="upload" id="imag">
+
+                                    <div class="icon">
+                                        <div class="camera4"><span></span></div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            @using (Html.BeginForm("Edit", "ProfileEmployee", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="tr">
+                                    <label class="label" for="input">NAME</label>
+
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "input" } })
+
+                                    <label class="label" for="input">Email</label>
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "input" } })
+
+                                    <label class="label" for="input">PhoneNumber</label>
+                                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "input" } })
+
+                                </div>
+
+                                <div>
+                                    <label class="label" for="input">Address</label>
+                                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "input" } })
+
+                                    <label class="label" for="input">Birthday</label>
+                                    @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "input" } })
+
+                                    <label class="label" for="input">Gender</label>
+                                    @Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "input" } })
+                                </div>
+
+                                @*@Html.ActionLink("Edit", "Edit", new { id = Model.EmployeeID })*@
+                                <button>Save</button>
+                                @Html.HiddenFor(model => model.EmployeeID)
+
+                            }
+
+
+
+                        </div>
+
+                        
+
+                    </article>
+                </section>
+
+                <section id="section3">
+                    <input class="t" type="radio" name="sections" id="option3">
+                    <label for="option3" class="trr">Change Password</label>
+                    <article>
+
+                        <div class="tr wwq">
+                            <label class="label" for="input">current Password</label>
+                            <input class="input e" type="password" id="input">
+
+                            <label class="label" for="input">new password</label>
+                            <input class="input e" type="password" id="input">
+
+                            <label class="label" for="input">repeat password</label>
+                            <input class="input e" type="password" id="input">
+
+
+                        </div>
+                        <button>Change Password</button>
+                    </article>
+                </section>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+

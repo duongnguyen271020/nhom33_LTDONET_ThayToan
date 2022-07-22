@@ -1,0 +1,413 @@
+﻿@using BookShopOnline_ProjectSem3.Models
+@{ 
+    BookDB_DemoEntities db = new BookDB_DemoEntities();
+    var contact = db.Contacts.ToList();
+    ViewBag.viewC = contact;
+    var genreMenu = db.Genres.ToList();
+    ViewBag.genreMenu = genreMenu;
+    var listCart = Session["Cart"] as List<Cart>;
+    int quantity = 0;
+    if (listCart == null)
+    {
+        quantity = 0;
+    }
+    else
+    {
+        foreach (var item in listCart)
+        {
+            quantity = quantity + item.Amount;
+        }
+    }
+}
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/Customer/img/favicon1.png">
+
+    <!-- all css here -->
+    <!-- bootstrap v3.3.6 css -->
+    <link rel="stylesheet" href="~/Content/Customer/css/bootstrap.min.css">
+    <!-- animate css -->
+    <link rel="stylesheet" href="~/Content/Customer/css/animate.css">
+    <!-- meanmenu css -->
+    <link rel="stylesheet" href="~/Content/Customer/css/meanmenu.min.css">
+    <!-- owl.carousel css -->
+    <link rel="stylesheet" href="~/Content/Customer/css/owl.carousel.css">
+    <!-- font-awesome css -->
+    <link rel="stylesheet" href="~/Content/Customer/css/font-awesome.min.css">
+    <!-- flexslider.css-->
+    <link rel="stylesheet" href="~/Content/Customer/css/flexslider.css">
+    <!-- RatingStar.css-->
+    <link href="~/Content/Customer/css/jquery.rateyo.min.css" rel="stylesheet" />
+    <!-- chosen.min.css-->
+    <link rel="stylesheet" href="~/Content/Customer/css/chosen.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="~/Content/Customer/css/style.css">
+    <!-- responsive css -->
+    <link rel="stylesheet" href="~/Content/Customer/css/responsive.css">
+    <!-- search css -->
+    <link href="~/Content/Customer/css/jquery-ui.css" rel="stylesheet" />
+    <!-- modernizr css -->
+    
+    @RenderSection("css", required: false)
+</head>
+<body class="home-4">
+    <header>
+        <!-- header-top-area-start -->
+        <div class="header-top-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
+                        <div class="account-area text-right">
+                            <ul>
+                                @{
+                                    var obj = Session["Client"] as BookShopOnline_ProjectSem3.Models.User;
+                                }
+                                @if (Session["Client"] == null)
+                                {
+                                    <li><a href="@Url.Action("Index","Login")">Sign in</a></li>
+                                    <li><a href="@Url.Action("Index","UserClient")">Register</a></li>
+                                }
+                                else
+                                {
+                                    <li>Hello: <a href="@Url.Action("Details","UserClient", new { id =  Session["ClientId"] })">@obj.Username </a></li>
+                                    <li><a href="@Url.Action("Logout","Login")"> Log out</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- header-top-area-end -->
+        <!-- header-mid-area-start -->
+        <div class="header-mid-area ptb-40">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                        <div class="logo-area">
+                            <a href="#"><img src="~/Content/Customer/img/logo/logo.png" alt="logo"></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-5 col-xs-12">
+                        <div class="header-search">
+                            <form action="/Book/Search" method="get">
+                                <input type="text" id="txtKeyword" name="keyword" placeholder="Search book name here...">
+                                <a href="#"><i class="fa fa-search"></i></a>
+                                @*<input type="submit" value="" class="fa fa-search">*@
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div class="my-cart">
+                            <ul>
+                                <li>
+                                    <a href="@Url.Action("Index","Cart")"><i class="fa fa-shopping-cart"></i>My Cart</a>
+                                    <span>@quantity</span>
+                                   
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- header-mid-area-end -->
+        <!-- main-menu-area-start -->
+        <div class="main-menu-area hidden-sm hidden-xs" id="header-sticky">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="menu-area">
+                            <nav>
+                                <ul>
+                                    <li class="active">
+                                        <a href="@Url.Action("Index","Home")">Home</a>
+                                    </li>
+                                    <li>
+                                        <a>Book<i class="fa fa-angle-down"></i></a>
+                                        <div class="sub-menu sub-menu-2">
+                                            <ul>
+                                                <li><a href="@Url.Action("Index","Book")">All book</a></li>
+                                                @foreach (var i in @ViewBag.genreMenu)
+                                                {
+                                                    <li><a href="@Url.Action("Genre","Book",new { id=i.GenreID})">@i.GenreName</a></li>
+                                                }
+
+
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li><a href="@Url.Action("Index","News")">News</a></li>
+                                    <li>
+                                        <a href="@Url.Action("Index","FAQ")">FAQ</a>
+
+                                    </li>
+                                    <li><a href="@Url.Action("Index","AboutUs")">About us</a></li>
+                                    <li><a href="@Url.Action("Index","Contact")">Contact us</a></li>
+
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- main-menu-area-end -->
+        <!-- mobile-menu-area-start -->
+        <div class="mobile-menu-area hidden-md hidden-lg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="mobile-menu">
+                            <nav id="mobile-menu-active">
+                                <ul id="nav">
+                                    <li>
+                                        <a href="#">Home</a>
+
+                                    </li>
+                                    <li><a href="#">News</a></li>
+                                    <li>
+                                        <a href="#">Book<i class="fa fa-angle-down"></i></a>
+                                        <div class="sub-menu sub-menu-2">
+                                            <ul>
+                                                @foreach (var i in @ViewBag.genreMenu)
+                                                {
+                                                    <li><a href="@Url.Action("Genre","Book",new { id=i.GenreID})">@i.GenreName</a></li>
+                                                }
+
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="#">FAQ</a>
+
+                                    </li>
+                                    <li><a href="#">contact us</a></li>
+
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- mobile-menu-area-end -->
+    </header>
+    <!-- header-area-end -->
+
+    <div>
+        @RenderBody()
+    </div>
+
+    <!-- footer-area-start -->
+    <footer>
+        <!-- footer-top-start -->
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="footer-top-menu bb-2">
+                            <nav>
+                                <ul>
+
+                                    <li><a href="#">Contact Us</a></li>
+                                    <li><a href="#">Privacy and Cookie Policy</a></li>
+
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- footer-top-start -->
+        <!-- footer-mid-start -->
+        <div class="footer-mid ptb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-12">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div class="single-footer br-2 xs-mb">
+                                    <div class="footer-title mb-20">
+                                        <h3>Products</h3>
+                                    </div>
+                                    <div class="footer-mid-menu">
+                                        <ul>
+                                            <li><a href="#">New Arrivals</a></li>
+                                            <li><a href="#">Discount </a></li>
+
+                                            <li><a href="#">Best sales</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div class="single-footer br-2 xs-mb">
+                                    <div class="footer-title mb-20">
+                                        <h3>Our company</h3>
+                                    </div>
+                                    <div class="footer-mid-menu">
+                                        <ul>
+                                            <li><a href="#">Contact us</a></li>
+                                            <li><a href="#">About Us</a></li>
+                                            <li><a href="#">FAQ</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div class="single-footer br-2 xs-mb">
+                                    <div class="footer-title mb-20">
+                                        <h3>Your account</h3>
+                                    </div>
+                                    <div class="footer-mid-menu">
+                                        <ul>
+
+                                            <li><a href="#">Personal info</a></li>
+                                            <li><a href="#">Sign In</a></li>
+                                            <li><a href="#">Register</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="single-footer mrg-sm">
+                            <div class="footer-title mb-20">
+                                <h3>SHOP INFORMATION</h3>
+                            </div>
+                            <div class="footer-contact">
+                                @foreach ( var c in ViewBag.viewC) { 
+                                    <p>@c.ContactName</p>
+                                }
+                                @*<p class="adress">
+
+                                    38 Yên Bái
+                                </p>
+                                <p><span>Call us now:</span> (+1)866-540-3229</p>
+                                <p><span>Email:</span>  support@hastech.com</p>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- footer-mid-end -->
+        <!-- footer-bottom-start -->
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row bt-2">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="copy-right-area">
+                            <p>Copyright ©. All Right Reserved.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="payment-img text-right">
+                            <a href="#"><img src="~/Content/Customer/img/1.png" alt="payment"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- footer-bottom-end -->
+    </footer>
+    <!-- footer-area-end -->
+    <!-- Modal -->
+
+    @RenderSection("scripts", required: false)
+    <!-- Modal end -->
+    <!-- jquery latest version -->
+    <script src="~/Content/Customer/js/jquery.min.js"></script>
+
+    <!-- bootstrap js -->
+    <script src="~/Content/Customer/js/bootstrap.min.js"></script>
+    <!-- owl.carousel js -->
+    <script src="~/Content/Customer/js/owl.carousel.min.js"></script>
+    <!-- meanmenu js -->
+    <script src="~/Content/Customer/js/jquery.meanmenu.js"></script>
+    <!-- wow js -->
+    <script src="~/Content/Customer/js/wow.min.js"></script>
+    <!-- RatingStar js -->
+    <script src="~/Content/Customer/js/jquery.rateyo.min.js"></script>
+    <!-- search js -->
+    <script src="~/Content/Customer/js/jquery-ui.js"></script>
+    <script src="~/Content/Customer/js/SearchController.js"></script>
+    <!-- jquery.parallax-1.1.3.js -->
+    <script src="~/Content/Customer/js/jquery.parallax-1.1.3.js"></script>
+    <!-- jquery.countdown.min.js -->
+    <script src="~/Content/Customer/js/jquery.countdown.min.js"></script>
+    <!-- jquery.flexslider.js -->
+    <script src="~/Content/Customer/js/jquery.flexslider.js"></script>
+    <!-- chosen.jquery.min.js -->
+    <script src="~/Content/Customer/js/chosen.jquery.min.js"></script>
+    <!-- jquery.counterup.min.js -->
+    <script src="~/Content/Customer/js/jquery.counterup.min.js"></script>
+    <!-- waypoints.min.js -->
+    <script src="~/Content/Customer/js/waypoints.min.js"></script>
+    <!-- plugins js -->
+    <script src="~/Content/Customer/js/plugins.js"></script>
+    <!-- FAQ js -->
+    <script src="~/Content/Customer/js/faq.js"></script>
+    <!-- main js -->
+    <script src="~/Content/Customer/js/main.js"></script>
+    <!-- googleapis -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMlLa3XrAmtemtf97Z2YpXwPLlimRK7Pk"></script>
+    <script>
+        /* Google Map js */
+        function initialize() {
+            var mapOptions = {
+                zoom: 15,
+                scrollwheel: false,
+                center: new google.maps.LatLng(23.810332, 90.412518)
+            };
+
+            var map = new google.maps.Map(document.getElementById('googleMap'),
+                mapOptions);
+
+            var marker = new google.maps.Marker({
+                position: map.getCenter(),
+                animation: google.maps.Animation.BOUNCE,
+                icon: 'img/map.png',
+                map: map
+            });
+
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    <script>
+        /* Javascript star rating */
+        $(function () {
+            $("#rateYo").rateYo({
+                rating: 0,
+                numStars: 5,
+                maxValue: 5,
+                halfStar: true,
+                onChange: function (rating, rateYoInstance) {
+                    $('#rating').val(rating);
+                }
+            });
+        });
+    </script>
+    <script src="~/Content/Customer/js/vendor/modernizr-2.8.3.min.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+    <script src="~/Content/Customer/js/vendor/RegisterCustomer.js"></script>
+    <script src="~/Content/Customer/js/vendor/checkout.js"></script>
+
+
+
+</body>
+</html>

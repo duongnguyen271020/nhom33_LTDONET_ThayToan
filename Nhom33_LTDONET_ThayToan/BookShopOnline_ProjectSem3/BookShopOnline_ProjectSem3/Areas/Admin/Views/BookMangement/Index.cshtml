@@ -1,0 +1,93 @@
+﻿@model IEnumerable<BookShopOnline_ProjectSem3.Models.Book>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="card">
+            <div class="card-body">
+                <p>
+                    @Html.ActionLink("Create New", "Create")
+                </p>
+                <br />
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table id="order-listing" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>BookName #</th>
+                                        <th>Created Date</th>
+                                        <th>Author</th>
+                                        <th>Genre</th>
+                                        <th>Price</th>
+                                        <th>Status</th>
+                                        <th>Image</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr id="row_@item.BookID">
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.BookName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CreatedDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Author.AuthorName)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Genre.GenreName)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Price)
+                                            </td>
+
+
+
+                                            <td>
+                                                @*<a href="#">@(item.Status?"Instock ":"OutStock")</a>*@
+                                                @*@Html.DisplayFor(ModelItem => item.Status ? "Instock" : "OutStock")*@
+                                                <a href="#" class="btn-active1" data-id="@item.BookID">@(item.Status?"Instock":"OutStock")</a>
+                                            </td>
+
+                                            @*<td>
+                                                @Html.DisplayFor(modelItem => item.Description)
+                                            </td>*@
+
+                                            <td>
+                                                <img src="~/UploadFile/@item.FILES.FirstOrDefault().FileName" width="100" height="100" />
+                                            </td>
+
+                                            <td>
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.BookID }) |
+                                                @*@Html.ActionLink("Delete", "Delete", new { id = item.BookID })*@
+                                                @Ajax.ActionLink("Delete", "Delete", new { id = item.BookID }, new AjaxOptions
+                                                {
+                                                    Confirm = "Do you want to delete this record ?",
+                                                    OnComplete = "$('#row_" + item.BookID + " ').remove()",
+                                                    HttpMethod = "Delete"
+                                                })
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

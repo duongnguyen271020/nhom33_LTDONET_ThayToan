@@ -1,0 +1,139 @@
+﻿@model IEnumerable<BookShopOnline_ProjectSem3.Models.OrderDetail>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="card">
+                <div class="card-body">
+                    @*<p>
+                        @Html.ActionLink("Create New", "Create")
+                    </p>*@
+                    <br />
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table id="order-listing" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>OrderID #</th>
+                                            <th>ProductName </th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                            <th>UserName</th>
+                                            <th>Action #</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                        <tr id="row_@item.OrderDetailsID">
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.OrderID)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Book.BookName)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Quantity)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Price)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.User.Username)
+                                            </td>
+
+                                            <td>
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.OrderDetailsID }) |
+
+
+                                                @Ajax.ActionLink("Delete", "Delete", new { id = item.OrderDetailsID }, new AjaxOptions
+                                                {
+                                                    Confirm = "Do you want to delete this record ?",
+                                                    OnComplete = "$('#row_" + item.OrderDetailsID + " ').remove()",
+                                                    HttpMethod = "Delete"
+                                                })
+                                            </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+@*<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Book.BookName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Employee.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Order.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.Username)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Book.BookName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employee.Username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Order.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.Username)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.OrderDetailsID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.OrderDetailsID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.OrderDetailsID })
+        </td>
+    </tr>
+}
+
+</table>*@

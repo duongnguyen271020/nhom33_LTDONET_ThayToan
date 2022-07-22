@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Customer.cshtml";
+}
+
+<!-- breadcrumbs-area-start -->
+<div class="breadcrumbs-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumbs-menu">
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#" class="active">News-details</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumbs-area-end -->
+<!-- blog-main-area-start -->
+<div class="blog-main-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                <div class="single-blog">
+                    <div class="blog-left-title">
+                        <h3>Tags</h3>
+                    </div>
+                    <div class="blog-tag">
+                        <ul>
+                            <li><a href="#">Authors</a></li>
+                            <li><a href="#">Genre</a></li>
+                            <li><a href="#">Comedy</a></li>
+                            <li><a href="#">Life</a></li>
+                            <li><a href="#">Travel</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+                <div class="blog-main-wrapper">
+                    <div class="author-destils mb-30">
+                        <div class="author-left">
+
+                            <div class="author-description">
+                                <p>
+                                    Posted by:
+                                    <a href="#"><span>Admin</span></a>
+                                </p>
+                                <span>@ViewBag.NewsDetail.CreatedDate</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    @*Image News*@
+                    <div class="blog-img mb-30">
+                        <img src="~/UploadImageNews/@ViewBag.NewsDetail.Image" alt="blog" style="height: 300px "  >
+                    </div>
+
+                    <div class="single-blog-content">
+                        <div class="single-blog-title">
+                            <h3>@ViewBag.NewsDetail.Title</h3>
+                        </div>
+                        <div class="blog-single-content">
+                            @Html.Raw(@ViewBag.NewsDetail.Content)
+                            
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- blog-main-area-end -->

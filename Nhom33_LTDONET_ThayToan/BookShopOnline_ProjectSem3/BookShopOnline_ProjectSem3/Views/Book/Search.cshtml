@@ -1,0 +1,130 @@
+﻿@model IEnumerable<BookShopOnline_ProjectSem3.Models.Book>
+@using BookShopOnline_ProjectSem3.Models
+
+@{
+    ViewBag.Title = "Result";
+    Layout = "~/Views/Shared/_Customer.cshtml";
+    BookDB_DemoEntities db = new BookDB_DemoEntities();
+}
+
+<br />
+<h3>Searching Result : @ViewBag.Keyword</h3>
+<br />
+<br />
+<br />
+
+
+<div class="tab-content">
+    <div class="tab-pane active" id="th">
+        <div class="row">
+            @{
+
+                foreach (var item in Model)
+                {
+                    int fileId = @item.BookID;
+                    var imageName = db.FILES.Where(x => x.BookID == fileId).ToList();
+                    ViewBag.imageName = imageName;
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <!-- single-product-start -->
+                        <div class="product-wrapper mb-40">
+                            <div class="product-img">
+                                <a href="@Url.Action("Index","ProductDetails", new { id = fileId })">
+                                    @foreach (var i in ViewBag.imageName)
+                                    {
+                                        <img src="@i.Path" alt="book" class="primary">
+                                    }
+
+                                </a>
+                                <div class="quick-view">
+                                    <a class="action-view" href="@Url.Action("Index","ProductDetails", new { id = fileId })" title="Details">
+                                        <i class="fa fa-search-plus"></i>
+                                    </a>
+                                </div>
+
+                            </div>
+                            <div class="product-details text-center">
+
+                                <h4><a href="#">@item.BookName</a></h4>
+                                <div class="product-price">
+                                    <ul>
+                                        <li>$@item.Price</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="product-link">
+                                <div class="product-button">
+                                    <a href="/Cart/AddCart/@item.BookID" title="Add to cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- single-product-end -->
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+
+</div>
+
+
+
+@*<table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BookName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Author.AuthorName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Genre.GenreName)
+                </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.AuthorName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre.GenreName)
+                </td>
+                <td>
+
+                    @Html.ActionLink("Index", "ProductDetails", new { id = item.BookID })
+
+                </td>
+            </tr>
+        }
+
+    </table>*@

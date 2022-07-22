@@ -1,0 +1,65 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <!-- RatingStar.css-->
+    <link href="~/Content/Customer/css/jquery.rateyo.min.css" rel="stylesheet" />
+    <script src="~/Content/Customer/js/jquery.min.js"></script>
+    <script src="~/Content/Customer/js/jquery.rateyo.min.js"></script>
+
+    <script>
+        /* Javascript star rating */
+        $(function () {
+            $("#rateYo").rateYo({
+                rating: 0,
+                numStars: 5,
+                maxValue: 5,
+                halfStar: true,
+                onChange: function (rating, rateYoInstance) {
+                    $('#rating').val(rating);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div>
+        @{ int i = 1;}
+        @foreach (var comment in ViewBag.product.Comments)
+        {
+            <div >
+                <ul>
+                    <li>
+                        <div class="public-comment">
+
+                            <div class="public-text">
+                                <div class="single-comm-top">
+                                    <a>@comment.User.Username</a>
+                                    <script type="text/javascript">
+                                    $(function () {
+                                        $('#@("rating" + i)').rateYo({
+                                            rating: @comment.Rating,
+                                            readOnly: true
+                                        });
+                                    });
+                                    </script>
+                                    <div id="@("rating" + i)"></div>
+                                </div>
+                                <p>@comment.Content</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            i++;
+        }
+
+    </div>
+</body>
+</html>

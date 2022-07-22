@@ -1,0 +1,182 @@
+﻿@using BookShopOnline_ProjectSem3.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Customer.cshtml";
+    var listCart = Session["Cart"] as List<Cart>;
+
+    List<Cart> cartCheckOut = listCart;
+    decimal Total = 0;
+    
+    int quantity = 0;
+}
+
+<body>
+    <!-- breadcrumbs-area-start -->
+    <div class="breadcrumbs-area mb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumbs-menu">
+                        <ul>
+                            <li><a href="#">My Account</a></li>
+                            <li><a href="#" class="active">cart</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumbs-area-end -->
+    <!-- entry-header-area-start -->
+    <div class="entry-header-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="entry-header-title">
+                        <h2>Cart</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="cart-main-area mb-70">
+        <div class="container">
+            <!-- Bảng Table Product Start -->
+            @if (listCart == null || listCart.Count == 0)
+            {
+                <p class="text-info text-center">
+                    NOT PRODUCT
+                </p>
+            }
+            else
+            {
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-content table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="product-thumbnail">Image</th>
+                                        <th class="product-name">Product</th>
+                                        <th class="product-price">Price</th>
+                                        <th class="product-quantity">Quantity</th>
+                                        <th class="product-subtotal">Total</th>
+                                        <th class=""></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in listCart)
+                                    {
+                                        <tr>
+                                            @using (Html.BeginForm("UpdateCart", "Cart", FormMethod.Post, null))
+                                            {
+
+                                                Total = Total + item.Price * item.Amount;
+                                                quantity = quantity + item.Amount;
+                                                
+                                                <td><input type="hidden" name="BookId" value="@item.BookId" /><img src="@item.Image" width="197" height="253" /></td>
+                                                <td class="product-name">@item.BookName</td>
+                                                <td class="product-price">$@item.Price</td>
+                                                @*<td>@item.Amount</td>*@
+                                                <td>
+                                                    <input type="number" value="@item.Amount" name="NewAmount" min="1"/>
+                                                    <button type="submit" class="btn btn-primary" value="Update" name="btnSubmit">Update</button>
+                                                </td>
+                                                <td class="product-subtotal">$@item.Total</td>
+                                                <td class="">
+
+                                                    <button type="submit" class="btn btn-danger" value="Delete" name="btnSubmit">Remove</button>
+                                                </td>
+                                            }
+                                            @*<button type="submit" class="btn btn-primary" value="Update" name="btnSubmit">Update</button>*@
+
+                                        </tr>
+                                    }
+                                </tbody>
+                                @*<button type="submit" class="btn btn-primary" value="Update" name="btnSubmit">Update</button>*@
+
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bảng Table Product End -->
+
+                <div class="row">
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+                        <div class="buttons-cart mb-30">
+                            <ul>
+
+                                <li><a href="@Url.Action("Index", "Home")">Continue Shopping</a></li>
+                                @*@if (Session["Client"] == null)
+                                {
+
+                                    <li><a href="@Url.Action("Index", "Login")">Please Login to Check Out</a></li>
+                                }
+                                else
+                                {
+                                   
+
+                                }*@
+
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="cart_totals">
+                            <h2>Cart Totals</h2>
+                            <br />
+                            <table>
+                                <tbody>
+                                    <tr class="cart-subtotal">
+                                        <th>Subtotal</th>
+                                        <td>
+                                            <span class="amount">$@Total</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Shipping</th>
+                                        <td>
+                                            <span>Free Shipping</span>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr class="order-total">
+                                        <th>Total</th>
+                                        <td>
+                                            <strong>
+                                                <span class="amount">$@Total </span>
+                                            </strong>
+                                            @*<strong><span>@quantity </span> </strong>*@
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="wc-proceed-to-checkout">
+                                @*<a href="@Url.Action("Index", "CheckOut")">Proceed to Checkout</a>*@
+
+                                <form action="/CheckOut/ProceedToOrder/" method="post" id="checkoutform">
+
+                                    <input type="hidden" name="totalPrice" value="@Total" />
+
+                                    @*<button type="submit" class="btn-danger">Proceed to Checkout</button>*@
+                                    <a href="javascript:{}" onclick="document.getElementById('checkoutform').submit();">Proceed to Checkout</a>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <!-- cart-main-area-end -->
+
+</body>

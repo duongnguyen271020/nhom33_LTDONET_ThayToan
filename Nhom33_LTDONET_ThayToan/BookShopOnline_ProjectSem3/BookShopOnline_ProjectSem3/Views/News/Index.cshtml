@@ -1,0 +1,63 @@
+﻿@model IEnumerable<BookShopOnline_ProjectSem3.Models.News>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Customer.cshtml";
+    <link href="~/Content/Customer/css/News.css" rel="stylesheet" />
+    <script src="~/Content/Customer/js/news.js"></script>
+}
+
+<br />
+<div class="breadcrumbs-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumbs-menu">
+                    <ul>
+                        <li><a href="#">BookShop Online</a></li>
+                        <li><a href="#" class="active">News</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="home-main-area mt-30">
+    <div class="container">
+        <div class="row">
+            @foreach (var n in Model)
+            {
+                <div class="col-md-4">
+                    <figure class="snip1208">
+                        <img src="~/UploadImageNews/@n.Image" alt="sample66" />
+                        @*<div class="date"><span class="day">@n.CreatedDate</span></div><i class="ion-checkmark"></i>*@
+                        <figcaption>
+                            <h3>@n.Title</h3>
+                            @Html.Raw(@n.Content.Remove(150))...
+                            <br />
+                            <button>Read More</button>
+                        </figcaption><a href="@Url.Action("Index","NewsDetails", new { id = n.NewsID }) "></a>
+                    </figure>
+                </div>
+            }
+
+        </div>
+        <div class="pagination-area">
+            <div class="page-number">
+                <ul>
+                    <li><a href="#" class="active">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#" class="angle"><i class="fa fa-angle-right"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <br />
+
+    </div>
+</div>
+
+
+

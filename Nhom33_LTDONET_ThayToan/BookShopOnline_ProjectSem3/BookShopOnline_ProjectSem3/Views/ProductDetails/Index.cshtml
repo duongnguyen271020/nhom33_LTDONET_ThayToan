@@ -1,0 +1,304 @@
+﻿@model BookShopOnline_ProjectSem3.Models.Comment
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Customer.cshtml";
+
+ 
+}
+
+<br />
+
+
+<div class="breadcrumbs-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumbs-menu">
+                    <ul>
+                        <li><a href="#">BookShop Online</a></li>
+                        <li><a href="#" class="active">Product Details</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- product-main-area-start -->
+<div class="product-main-area mb-70">
+    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+                <!-- product-main-area-start -->
+                <div class="product-main-area">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                            <div>
+                                <ul>
+                                    <li>
+                                        <img src="@ViewBag.Image"  alt="woman">
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                            <div class="product-info-main">
+                                <div class="page-title">
+                                    <h1>@ViewBag.product.BookName</h1>
+                                </div>
+                                <div class="product-info-stock-sku">
+                                    <span>@(ViewBag.product.Status ? "Instock" : "OutStock")</span>
+                                </div>
+
+                                <hr />
+                                <div class="product-info-price">
+                                    <div class="price-final">
+                                        <span>$@ViewBag.product.Price</span>
+
+                                    </div>
+                                </div>
+
+                                <div class="product-add-form">
+                                    <form action="/ProductDetails/AddCart" id="myform">
+                                        <div class="quality-button">
+                                            <input class="qty" type="number" value="1" min="1" name="quantity">
+                                        </div>
+                                        <a href="javascript:{}" onclick="document.getElementById('myform').submit();">Add to cart</a>
+                                    </form>
+                                </div>
+
+
+                                <div class="product-social-links">
+                                    <div></div>
+                                    <div class="product-addto-links-text">
+                                        <p>@ViewBag.product.Description</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- product-main-area-end -->
+                <!-- Review Area Start-->
+                @*@RenderPage("~/Views/Shared/Comment.cshtml")*@
+                <div class="product-info-area mt-80">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="active"><a href="#Reviews" data-toggle="tab">Reviews </a></li>
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <div class="tab-pane active" id="Reviews">
+                            <div class="valu valu-2">
+                                <span>Customer Reviews: </span>
+                                <hr />
+
+
+                                @RenderPage("~/Views/Shared/ShowComment.cshtml")
+
+                                @if (Session["Client"] == null)
+                                {
+
+                                    <a href="@Url.Action("Index", "Login")">Please Login to post your comment</a>
+                                }
+                                else
+                                {
+                                    using (Html.BeginForm("SendComment", "ProductDetails", FormMethod.Post))
+                                    {
+                                        <span>Your Review:</span>
+                                        <table cellpadding="2" cellspacing="2">
+                                            <tr>
+                                                <td valign="top">Rating*</td>
+                                                <td>
+                                                    <div id="rateYo"></div>
+                                                    <input type="hidden" id="rating" name="rating" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="top">Content*</td>
+                                                <td>
+                                                    @Html.TextAreaFor(model => model.Content, new { cols = 50, rows = 5 })
+                                                    @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                                <td><input type="submit" value="Send" /></td>
+                                                @Html.HiddenFor(model => model.BookID)
+                                            </tr>
+                                        </table>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Review Area End-->
+
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                <div class="shop-left">
+                    <div class="left-title mb-20">
+                        <h4>Related Products</h4>
+                    </div>
+                    <div class="random-area mb-30">
+                        <div class="product-active-2 owl-carousel">
+                            <div class="product-total-2">
+                                <div class="single-most-product bd mb-18">
+                                    <div class="most-product-img">
+                                        <a href="#"><img src="~/Content/Customer/img/product/20.jpeg" alt="book"></a>
+                                    </div>
+                                    <div class="most-product-content">
+                                        <div class="product-rating">
+                                            <ul>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <h4><a href="#">Endeavor Daytrip</a></h4>
+                                        <div class="product-price">
+                                            <ul>
+                                                <li>$30.00</li>
+                                                <li class="old-price">$33.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="single-most-product bd mb-18">
+                                    <div class="most-product-img">
+                                        <a href="#"><img src="~/Content/Customer/img/product/21.jpeg" alt="book"></a>
+                                    </div>
+                                    <div class="most-product-content">
+                                        <div class="product-rating">
+                                            <ul>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <h4><a href="#">Savvy Shoulder Tote</a></h4>
+                                        <div class="product-price">
+                                            <ul>
+                                                <li>$30.00</li>
+                                                <li class="old-price">$35.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="single-most-product">
+                                    <div class="most-product-img">
+                                        <a href="#"><img src="~/Content/Customer/img/product/22.jpeg" alt="book"></a>
+                                    </div>
+                                    <div class="most-product-content">
+                                        <div class="product-rating">
+                                            <ul>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <h4><a href="#">Compete Track Tote</a></h4>
+                                        <div class="product-price">
+                                            <ul>
+                                                <li>$35.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-total-2">
+                                <div class="single-most-product bd mb-18">
+                                    <div class="most-product-img">
+                                        <a href="#"><img src="~/Content/Customer/img/product/23.jpeg" alt="book"></a>
+                                    </div>
+                                    <div class="most-product-content">
+                                        <div class="product-rating">
+                                            <ul>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <h4><a href="#">Voyage Yoga Bag</a></h4>
+                                        <div class="product-price">
+                                            <ul>
+                                                <li>$30.00</li>
+                                                <li class="old-price">$33.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="single-most-product bd mb-18">
+                                    <div class="most-product-img">
+                                        <a href="#"><img src="~/Content/Customer/img/product/24.jpeg" alt="book"></a>
+                                    </div>
+                                    <div class="most-product-content">
+                                        <div class="product-rating">
+                                            <ul>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <h4><a href="#">Impulse Duffle</a></h4>
+                                        <div class="product-price">
+                                            <ul>
+                                                <li>$70.00</li>
+                                                <li class="old-price">$74.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="single-most-product">
+                                    <div class="most-product-img">
+                                        <a href="#"><img src="~/Content/Customer/img/product/22.jpeg" alt="book"></a>
+                                    </div>
+                                    <div class="most-product-content">
+                                        <div class="product-rating">
+                                            <ul>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <h4><a href="#">Fusion Backpack</a></h4>
+                                        <div class="product-price">
+                                            <ul>
+                                                <li>$59.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="banner-area mb-30">
+                        <div class="banner-img-2">
+                            <a href="#"><img src="~/Content/Customer/img/banner/33.jpeg" alt="banner"></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- product-main-area-end -->
